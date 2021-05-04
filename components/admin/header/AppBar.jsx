@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -25,6 +25,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import { setCookie, getCookie } from '../../../helpers/cookie';
+import userContext from '../../../context/user/userContext';
 
 const drawerWidth = 240;
 
@@ -33,7 +34,7 @@ export default function AppBarComponnent({ isOpen, children }) {
 	const classes = useStyles();
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(null);
-	// const [cookie, setcookie] = React.useState(null);
+	const { logOutUser } = useContext(userContext);
 
 	useEffect(() => {
 		setOpen(null);
@@ -86,7 +87,9 @@ export default function AppBarComponnent({ isOpen, children }) {
 
 						<Button className={classes.colors}>
 							<ExitToAppIcon />
-							<span className={classes.iconMargin}>გასვლა</span>
+							<span className={classes.iconMargin} onClick={logOutUser}>
+								გასვლა
+							</span>
 						</Button>
 					</div>
 				</Toolbar>

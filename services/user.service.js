@@ -1,45 +1,18 @@
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
 export const accountService = {
-	buyerLogin,
-	buyerSignup,
-	sellerLogin,
-	sellerSignup,
+	userSignin,
+	adminSignin,
 };
 
-function buyerLogin(email, password) {
+function userSignin(Email, Password) {
 	return fetchWrapper
-		.post('/buyerLogin', { email, password })
+		.post(`/Account/authenticate`, { Email, Password })
 		.then((user) => user);
 }
 
-function buyerSignup(data) {
+function adminSignin(Email, Password) {
 	return fetchWrapper
-		.post('/buyerSignup', {
-			email: data.email,
-			password: data.password,
-			buyerName: data.buyerName,
-			buyerSurname: data.buyerSurname,
-			phoneNumber: data.phoneNumber,
-		})
-		.then((user) => user);
-}
-
-function sellerLogin(email, password) {
-	return fetchWrapper
-		.post('/sellerLogin', { email, password })
-		.then((user) => user);
-}
-
-function sellerSignup(data) {
-	return fetchWrapper
-		.post('/sellerSignup', {
-			email: data.email,
-			password: data.password,
-			sellerName: data.buyerName,
-			sellerSurname: data.buyerSurname,
-			companyName: 'company name',
-			contactPhone: data.phoneNumber,
-		})
+		.post('/Account/authenticateAdmin', { Email, Password })
 		.then((user) => user);
 }

@@ -23,7 +23,9 @@ function post(endpoint, bodyData, ContentType = 'application/json') {
 	const requestOptions = {
 		method: 'POST',
 		headers: {
-			'Content-Type': ContentType,
+			Accept: '*/*',
+			'access-control-allow-origin': '*',
+			'Content-Type': 'application/json;charset=UTF-8',
 			...authHeader(),
 		},
 		body: JSON.stringify({ ...bodyData }),

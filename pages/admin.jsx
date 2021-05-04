@@ -4,15 +4,15 @@ import { getCookie } from '../helpers/cookie';
 import redirect from '../helpers/redirect';
 
 function Adminpage() {
-	return <AppBarComponnent></AppBarComponnent>;
+	return <AppBarComponnent isOpen={true}></AppBarComponnent>;
 }
 
 export default Adminpage;
 
-Adminpage.getInitialProps = async (ctx) => {
-	if (getCookie('access_Token', ctx.req)) {
-		redirect('/admin/', ctx);
-	} else {
-		redirect('/admin/signin', ctx);
-	}
-};
+// Adminpage.getInitialProps = async (ctx) => {
+// 	if (getCookie('access_Token', ctx.req)) {
+// 		redirect('/admin/', ctx);
+// 	} else {
+// 		redirect('/admin/signin', ctx);
+// 	}
+// };

@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid';
+import { useRouter } from 'next/router';
 import Typography from '@material-ui/core/Typography';
 
 import TextFieldComponent from '../../components/admin/reusable/TextFieldComponent';
@@ -8,22 +8,26 @@ import AppBarComponnent from '../../components/admin/header/AppBar';
 import AppForm from '../../components/client/forms/AppForm';
 import SubmitButton from '../../components/admin/reusable/SubmitButton';
 import { getCookie } from '../../helpers/cookie';
+import { accountService } from '../../services/user.service';
+import { userSigninSchema } from '../../helpers/schema';
 
 function Signin({ drawerIsOpen }) {
-	const validationSchema = Yup.object().shape({
-		email: Yup.string()
-			.required('შეავსეთ ველი')
-			.email('შეიყვანეთ ელ. ფოსტის მისამართი სწორ ფორმაში'),
-		password: Yup.string().required('შეავსეთ ველი'),
-	});
+	const router = useRouter();
 
 	const initialValues = {
-		email: '',
-		password: '',
+		Email: 'tediashvili.jemali@gtu.ge',
+		Password: 'Admin123!',
 	};
 
 	function onSubmit(data, action) {
-		console.log(data);
+		accountService
+			.adminSignin(data.Email, data.Password)
+			.then((res) => {
+				router.push('/admin');
+			})
+			.catch((err) => {
+				action.setSubmitting(false);
+			});
 	}
 
 	return (
@@ -31,7 +35,7 @@ function Signin({ drawerIsOpen }) {
 			<AppForm
 				initialValues={initialValues}
 				validateOnChange={true}
-				validationSchema={validationSchema}
+				validationSchema={userSigninSchema}
 				onSubmit={onSubmit}
 			>
 				<Typography variant='h5' component='h5' align='center' gutterBottom>
@@ -40,10 +44,14 @@ function Signin({ drawerIsOpen }) {
 				<Grid container spacing={5} justify='center'>
 					<Grid item xs={12} sm={12} md={6}>
 						<div className='mb-30'>
-							<TextFieldComponent placeholder='ელ ფოსტა' name='email' />
+							<TextFieldComponent placeholder='ელ ფოსტა' name='Email' />
 						</div>
 						<div className='mb-30'>
-							<TextFieldComponent placeholder='პაროლი' name='password' />
+							<TextFieldComponent
+								type='password'
+								placeholder='პაროლი'
+								name='Password'
+							/>
 						</div>
 
 						<div className='flex space-center'>
